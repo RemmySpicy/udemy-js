@@ -6,15 +6,17 @@ const poll = {
   answers: new Array(4).fill(0),
 
   registerNewAnswer() {
-    const answer = +prompt(`What is your favourite programming language?
-        0: JavaScript
-        1: Python
-        2: Rust
-        3: C++
-        (Write option number)`);
+    //Get answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join("\n")}\n(Write option number)`,
+        "?"
+      )
+    );
 
+    // Register answer
     if (typeof answer === "number" && answer < this.answers.length) {
-      this.answers[answer] += 1;
+      this.answers[answer]++;
       this.displayResult(typeof answer);
     } else {
       console.log("Please enter a valid answer between 0 - 3");
@@ -22,27 +24,23 @@ const poll = {
     }
   },
 
-  displayResult(type) {
-
-    if (type === "object") console.log(this.answers);
-    else
-      console.log(
-        `Poll results are ${this.answers[0]}, ${this.answers[1]}, ${this.answers[2]}, ${this.answers[3]}.`
-      );
+  displayResult(type = "array") {
+    if (type === "array") console.log(this.answers);
+    else console.log(`Poll results are ${this.answers.join(", ")}.`);
   },
 };
 
+// Dom click event call
 document
   .querySelector(".poll")
   .addEventListener("click", poll.registerNewAnswer.bind(poll));
 
-
-//   let extra = {
-//     answers: [5, 2, 3]
-//   }
-//   console.log(displayResult(typeof extra.answers).bind(poll));
-//   console.log(displayResult.call(poll, '[1, 5, 3, 9, 6, 1]'))
-
+// Bonus challenge
+let bonus = {
+  answers: [5, 2, 3],
+};
+console.log(poll.displayResult.call(bonus, "string"));
+console.log(poll.displayResult.call({ answers: [1, 5, 3, 9, 6, 1] }));
 
 /*
 1. Create a method called 'registerNewAnswer' on the 'poll' object. The method does 2 things:
