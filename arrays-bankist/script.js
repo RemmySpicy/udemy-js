@@ -110,6 +110,7 @@ function createUsernames(accs) {
 
 createUsernames(accounts);
 
+// Transaction history record
 const movementsDescription = movements.map(
   (mov, i) =>
     `Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(
@@ -118,13 +119,16 @@ const movementsDescription = movements.map(
 );
 console.log(movementsDescription);
 
+// Display Account balance
 function calculatePrintBalance(movements) {
-  const balance = movements.reduce((accu, mov) => accu + mov, 0);
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance} EUR`;
 }
 
-
 calculatePrintBalance(account1.movements);
+
+// Maximum Value
+console.log(movements.reduce((acc, mov) => mov > acc ? mov : acc, 0));
 
 /////////////////////////////////////////////////
 
