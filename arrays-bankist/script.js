@@ -142,6 +142,12 @@ function displaySumOut (movement) {
 }
 displaySumOut(account1.movements)
 
+// Display interest rate
+function displayInterestRate (rate) {
+  console.log(labelSumIn.textContent);
+  // labelSumInterest.textContent = `€ ${movement.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
+}
+displayInterestRate(account1.interestRate)
 
 /////////////////////////////////////////////////
 
