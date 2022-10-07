@@ -130,9 +130,12 @@ calculateDisplayBalance(account1.movements);
 // Maximum Value
 console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
 
-labelSumIn = 
-function 
+// Display recieved movements
+function displaySumIn () {
+  labelSumIn.textContent = `€ ${movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
+}
 
+displaySumIn()
 /////////////////////////////////////////////////
 
 /* 
