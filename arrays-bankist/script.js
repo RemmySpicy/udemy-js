@@ -120,15 +120,18 @@ const movementsDescription = movements.map(
 console.log(movementsDescription);
 
 // Display Account balance
-function calculatePrintBalance(movements) {
+function calculateDisplayBalance(movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance} EUR`;
 }
 
-calculatePrintBalance(account1.movements);
+calculateDisplayBalance(account1.movements);
 
 // Maximum Value
 console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
+
+labelSumIn = 
+function 
 
 /////////////////////////////////////////////////
 
@@ -177,9 +180,9 @@ function calcAverageHumanAge(ages) {
   const humanAges = ages
     .map((age) => (age <= 2 ? 2 * age : 16 + age * 4))
     .filter((age) => age >= 18);
-  // return humanAges.reduce((acc, age) => acc + age, 0) / humanAges.length;
+  return humanAges.reduce((acc, age) => acc + age, 0) / humanAges.length;
 
-  return humanAges.reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+  // return humanAges.reduce((acc, age, i, arr) => acc + age / arr.length, 0);
 }
 
 console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
