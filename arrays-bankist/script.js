@@ -131,11 +131,18 @@ calculateDisplayBalance(account1.movements);
 console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
 
 // Display recieved movements
-function displaySumIn () {
-  labelSumIn.textContent = `€ ${movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
+function displaySumIn (movement) {
+  labelSumIn.textContent = `€ ${movement.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
 }
+displaySumIn(account1.movements)
 
-displaySumIn()
+// Display sent movements
+function displaySumOut (movement) {
+  labelSumOut.textContent = `€ ${movement.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)}`;
+}
+displaySumOut(account1.movements)
+
+
 /////////////////////////////////////////////////
 
 /* 
