@@ -122,7 +122,7 @@ console.log(movementsDescription);
 // Display Account balance
 function calculateDisplayBalance(movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance} €`;
 }
 
 calculateDisplayBalance(account1.movements);
