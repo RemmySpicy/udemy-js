@@ -85,9 +85,9 @@ function displayMovements(movements) {
 
     const html = `
         <div class="movements__row">
-            <div class="movements__type movements__type--${type}">2 ${type}</div>
+            <div class="movements__type movements__type--${type}"> ${type}</div>
             <div class="movements__date">3 days ago</div>
-            <div class="movements__value">${mov}</div>
+            <div class="movements__value">${mov}€</div>
         </div>
         `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -113,41 +113,42 @@ createUsernames(accounts);
 // Transaction history record
 const movementsDescription = movements.map(
   (mov, i) =>
-    `Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(
-      mov
-    )}`
+    `Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(mov)}`
 );
 console.log(movementsDescription);
 
 // Display Account balance
-function calculateDisplayBalance(movements) {
+function calcDisplayBalance(movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} €`;
+  labelBalance.textContent = `${balance}€`;
 }
 
-calculateDisplayBalance(account1.movements);
+calcDisplayBalance(account1.movements);
 
 // Maximum Value
 console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
 
-// Display recieved movements
-function displaySumIn (movement) {
-  labelSumIn.textContent = `€ ${movement.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
-}
-displaySumIn(account1.movements)
+// Display movements summaries
+function calcDisplaySummary (movements) {
+  // display incomes
+  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
 
-// Display sent movements
-function displaySumOut (movement) {
-  labelSumOut.textContent = `€ ${movement.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)}`;
-}
-displaySumOut(account1.movements)
+  // display outcomes
+  const outcomes = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outcomes)}€`;
 
-// Display interest rate
-function displayInterestRate (rate) {
-  console.log(labelSumIn.textContent);
-  // labelSumInterest.textContent = `€ ${movement.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)}`;
+  // display interest
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 1.2 / 100)
+    .filter(interest => interest >= 1)
+    .reduce((acc, interest) => acc + interest, 0);
+  labelSumInterest.textContent = `${interest}€`;
 }
-displayInterestRate(account1.interestRate)
+calcDisplaySummary(account1.movements)
+
+
 
 /////////////////////////////////////////////////
 
