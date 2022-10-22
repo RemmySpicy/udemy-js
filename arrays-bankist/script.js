@@ -239,6 +239,23 @@ btnClose.addEventListener('click', (e) => {
     inputCloseUsername.value = inputClosePin.value = '';
 })
 
+// Get overall balance in bank
+
+// Flat method
+const overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+
+  console.log(overallBalance);
+
+// FlatMap method
+const overallBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+
+  console.log(overallBalance2);
+
 /////////////////////////////////////////////////
 
 /* 
