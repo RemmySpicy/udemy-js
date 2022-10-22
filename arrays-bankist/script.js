@@ -77,10 +77,13 @@ const eurToUsd = 1.1;
 const movementsUSD = movements.map((mov) => mov * eurToUsd);
 console.log(movementsUSD);
 
-function displayMovements(movements) {
+function displayMovements(movements, sort = false) {
   containerMovements.innerHTML = "";
 
-  movements.forEach((mov, i) => {
+  // Soft copy with slice without spreading
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
     const html = `
@@ -255,6 +258,23 @@ const overallBalance2 = accounts
   .reduce((acc, mov) => acc + mov, 0);
 
   console.log(overallBalance2);
+
+
+// Sort movements
+let sorted = false; // state variable
+btnSort.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+})
+
+
+
+
+
+
+
 
 
 // Sorting arrays of number ---  sorting mutates array
