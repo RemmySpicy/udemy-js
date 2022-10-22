@@ -188,6 +188,8 @@ btnTransfer.addEventListener('click', (e) => {
   const amount = Number(inputTransferAmount.value)
   const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
 
+  inputTransferAmount.value = inputTransferTo.value = '';
+
   if (
     amount > 0 &&
     receiverAcc &&
@@ -201,7 +203,25 @@ btnTransfer.addEventListener('click', (e) => {
     // update UI
     updateUI(currentAccount)
     console.log(receiverAcc);
-  } 
+  }
+})
+
+btnClose.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  if (inputCloseUsername.value === currentAccount.username && 
+    Number(inputClosePin.value) === currentAccount.pin
+    ) {
+      const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+      // .indexOf(element) only works for elements in the array, not complex find 
+
+      // Delete account
+      accounts.splice(index, 1);
+
+      // Hide UI
+      containerApp.style.opacity = 0; 
+    }
+    inputCloseUsername.value = inputClosePin.value = '';
 })
 
 /////////////////////////////////////////////////
