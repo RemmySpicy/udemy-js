@@ -256,6 +256,23 @@ const overallBalance2 = accounts
 
   console.log(overallBalance2);
 
+
+// Sorting arrays of number ---  sorting mutates array
+
+// return < 0, then A comes before B - Descending order (large to small)
+// return > 0, then B comes before A - Ascending order (small to large)
+
+// Ascending
+// movements.sort((a, b) => a > b ? 1 : -1);
+movements.sort((a, b) => a - b);
+console.log(movements);
+
+// Descending
+// movements.sort((a, b) => a > b ? -1 : 1);
+movements.sort((a, b) => b - a);
+console.log(movements);
+
+
 /////////////////////////////////////////////////
 
 /* 
