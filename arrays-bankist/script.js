@@ -116,9 +116,9 @@ const movementsDescription = movements.map(
 console.log(movementsDescription);
 
 // Display Account balance
-function calcDisplayBalance(movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} €`;
+function calcDisplayBalance(acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance} €`;
 }
 
 // Maximum Value
@@ -143,6 +143,18 @@ function calcDisplaySummary (acc) {
   labelSumInterest.textContent = `${interest} €`;
 }
 
+const updateUI = (acc) => {
+  console.log(acc);
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc)  
+}
+
 
 // Event handler
 let currentAccount;
@@ -152,7 +164,7 @@ btnLogin.addEventListener('click', (e) => {
   e.preventDefault();
 
   currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
-  console.log(currentAccount)
+  // console.log(currentAccount)
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and welcome message
@@ -165,15 +177,31 @@ btnLogin.addEventListener('click', (e) => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
-    // Display movements
-    displayMovements(currentAccount.movements);
-
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
-
-    // Display summary
-    calcDisplaySummary(currentAccount)
+    // update UI
+    updateUI(currentAccount)
   }
+})
+
+// Transfer money event handler
+btnTransfer.addEventListener('click', (e) => {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value)
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // update UI
+    updateUI(currentAccount)
+    console.log(receiverAcc);
+  } 
 })
 
 /////////////////////////////////////////////////
