@@ -442,3 +442,6 @@ console.log(ownersEatTooLittle, ownersEatTooMuch);
 // 4
 console.log(`${ownersEatTooLittle.flat().join(' and ')} dogs eat too little`);
 console.log(`${ownersEatTooMuch.flat().join(' and ')} dogs eat too much`);
+
+// 5
+console.log(`Is any dog eating EXACTLY the amount of recommended food? ${dogs.some(dog => dog.curFood == dog.recommendedFood)}`);
