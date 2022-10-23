@@ -433,3 +433,8 @@ dogs.forEach(dog => {
 const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
 console.log(`sarahDog ${sarahDog.curFood > sarahDog.recommendedFood ? 'eats' : 'does not eat'} too much`);
 
+// 3
+const ownersEatTooLittle = [], ownersEatTooMuch = [];
+dogs.forEach(dog => dog.curFood > dog.recommendedFood ? ownersEatTooMuch.push(dog.owners) : ownersEatTooLittle.push(dog.owners))
+
+console.log(ownersEatTooLittle, ownersEatTooMuch);
