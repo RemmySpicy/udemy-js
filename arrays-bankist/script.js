@@ -416,6 +416,7 @@ const dogs = [
 GOOD LUCK 😀
 */
 
+// 1
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -427,3 +428,8 @@ dogs.forEach(dog => {
   dog.recommendedFood = dog.weight ** 0.75 * 28;
   console.log(dog);
 });
+
+// 2
+const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(`sarahDog ${sarahDog.curFood > sarahDog.recommendedFood ? 'eats' : 'does not eat'} too much`);
+
