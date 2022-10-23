@@ -447,7 +447,11 @@ console.log(`${ownersEatTooMuch.flat().join(' and ')} dogs eat too much`);
 console.log(`Is any dog eating EXACTLY the amount of recommended food? ${dogs.some(dog => dog.curFood == dog.recommendedFood)}`);
 
 // 6
-// const condition = current > (recommended * 0.90) && current < (recommended * 1.10);
-const condition = (dog) => `dog.curFood > (dog.recommendedFood * 0.90) && dog.curFood < (dog.recommendedFood * 1.10)`;
+const condition = (dog) => dog.curFood > (dog.recommendedFood * 0.90) && dog.curFood < (dog.recommendedFood * 1.10);
 
 console.log(`is any dog eating an OKAY amount of recommended food? ${dogs.some(condition)}`);
+
+// 7
+
+const okayFoodDogs = dogs.filter(condition);
+console.log(okayFoodDogs);
