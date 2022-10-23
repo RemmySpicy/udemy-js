@@ -438,3 +438,7 @@ const ownersEatTooLittle = [], ownersEatTooMuch = [];
 dogs.forEach(dog => dog.curFood > dog.recommendedFood ? ownersEatTooMuch.push(dog.owners) : ownersEatTooLittle.push(dog.owners))
 
 console.log(ownersEatTooLittle, ownersEatTooMuch);
+
+// 4
+console.log(`${ownersEatTooLittle.flat().join(' and ')} dogs eat too little`);
+console.log(`${ownersEatTooMuch.flat().join(' and ')} dogs eat too much`);
