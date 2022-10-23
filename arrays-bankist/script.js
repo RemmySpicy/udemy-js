@@ -452,6 +452,9 @@ const condition = (dog) => dog.curFood > (dog.recommendedFood * 0.90) && dog.cur
 console.log(`is any dog eating an OKAY amount of recommended food? ${dogs.some(condition)}`);
 
 // 7
-
 const okayFoodDogs = dogs.filter(condition);
 console.log(okayFoodDogs);
+
+// 8 
+const sortedDogs = dogs.slice().sort((a, b) => a.recommendedFood - b.recommendedFood)
+console.log(sortedDogs);
