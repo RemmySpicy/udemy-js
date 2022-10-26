@@ -10,6 +10,9 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+
+  currency: 'EUR',
+  locale: 'pt-PT',
 };
 
 const account2 = {
@@ -17,6 +20,9 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  
+  currency: 'USD',
+  locale: 'en-US',
 };
 
 const account3 = {
@@ -24,6 +30,10 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+
+  
+  currency: 'GBP',
+  locale: 'en-GB',
 };
 
 const account4 = {
@@ -90,7 +100,7 @@ function displayMovements(movements, sort = false) {
         <div class="movements__row">
             <div class="movements__type movements__type--${type}"> ${type}</div>
             <div class="movements__date">3 days ago</div>
-            <div class="movements__value">${mov} €</div>
+            <div class="movements__value">${mov.toFixed(2)} €</div>
         </div>
         `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -121,7 +131,7 @@ console.log(movementsDescription);
 // Display Account balance
 function calcDisplayBalance(acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance} `;
+  labelBalance.textContent = `${acc.balance.toFixed(2)} €`;
 }
 
 // Maximum Value
@@ -131,11 +141,11 @@ console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
 function calcDisplaySummary (acc) {
   // display incomes
   const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes} €`;
+  labelSumIn.textContent = `${incomes.toFixed(2)} €`;
 
   // display outcomes
   const outcomes = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(outcomes)} €`;
+  labelSumOut.textContent = `${Math.abs(outcomes).toFixed(2)} €`;
 
   // display interest
   const interest = acc.movements
@@ -143,7 +153,7 @@ function calcDisplaySummary (acc) {
     .map(deposit => deposit * acc.interestRate / 100)
     .filter(interest => interest >= 1)
     .reduce((acc, interest) => acc + interest, 0);
-  labelSumInterest.textContent = `${interest} €`;
+  labelSumInterest.textContent = `${interest.toFixed(2)} €`;
 }
 
 const updateUI = (acc) => {
@@ -160,7 +170,24 @@ const updateUI = (acc) => {
 
 
 // Event handler
-let currentAccount;
+let currentAccount = account1;
+containerApp.style.opacity = 1;
+updateUI(currentAccount)
+
+// Experimenting with Intl date formatter API (iso language code table)
+// const now = new Date();
+// const options = {
+//   hour: 'numeric',
+//   minute: 'numeric',
+//   day: 'numeric',
+//   month: 'long',
+//   year: 'numeric',
+//   weekday: 'long'
+// };
+
+// const locale = navigator.language;
+
+// labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
 
 btnLogin.addEventListener('click', (e) => {
   //prevent form from submitting
@@ -175,6 +202,20 @@ btnLogin.addEventListener('click', (e) => {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 1;
+
+    const now = new Date();
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      // weekday: 'long'
+    };
+
+    const locale = currentAccount.locale;
+
+    labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -213,7 +254,8 @@ btnTransfer.addEventListener('click', (e) => {
 btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value)
+  // Round to number incase of decimal value
+  const amount = Math.floor(inputLoanAmount.value)
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount/10)) {
     // Give Loan
     currentAccount.movements.push(amount);
@@ -416,7 +458,6 @@ const dogs = [
 GOOD LUCK 😀
 */
 
-// 1
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -424,18 +465,28 @@ const dogs = [
   { weight: 32, curFood: 340, owners: ['Michael'] }
 ];
 
+// 1
 dogs.forEach(dog => {
-  dog.recommendedFood = dog.weight ** 0.75 * 28;
+  dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
   console.log(dog);
 });
 
 // 2
 const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
-console.log(`sarahDog ${sarahDog.curFood > sarahDog.recommendedFood ? 'eats' : 'does not eat'} too much`);
+console.log(`sarahDog ${sarahDog.curFood > sarahDog.recFood ? 'eats' : 'does not eat'} too much`);
 
 // 3
 const ownersEatTooLittle = [], ownersEatTooMuch = [];
-dogs.forEach(dog => dog.curFood > dog.recommendedFood ? ownersEatTooMuch.push(dog.owners) : ownersEatTooLittle.push(dog.owners))
+dogs.forEach(dog => dog.curFood > dog.recFood ? ownersEatTooMuch.push(dog.owners) : ownersEatTooLittle.push(dog.owners))
+
+// course method
+// const ownersEatTooLittle = dogs
+//   .filter(dog => dog.curFood < dog.recFood)
+//   .flatMap(dog => dog.owners);
+
+// const ownersEatTooMuch = dogs
+//   .filter(dog => dog.curFood > dog.recFood)
+//   .flatMap(dog => dog.owners);
 
 console.log(ownersEatTooLittle, ownersEatTooMuch);
 
@@ -443,18 +494,22 @@ console.log(ownersEatTooLittle, ownersEatTooMuch);
 console.log(`${ownersEatTooLittle.flat().join(' and ')} dogs eat too little`);
 console.log(`${ownersEatTooMuch.flat().join(' and ')} dogs eat too much`);
 
+// course method
+// console.log(`${ownersEatTooLittle.join(' and ')} dogs eat too little`);
+// console.log(`${ownersEatTooMuch.join(' and ')} dogs eat too much`);
+
 // 5
-console.log(`Is any dog eating EXACTLY the amount of recommended food? ${dogs.some(dog => dog.curFood == dog.recommendedFood)}`);
+console.log(`Is any dog eating EXACTLY the amount of recommended food? ${dogs.some(dog => dog.curFood === dog.recFood)}`);
 
 // 6
-const condition = (dog) => dog.curFood > (dog.recommendedFood * 0.90) && dog.curFood < (dog.recommendedFood * 1.10);
+const condition = (dog) => dog.curFood > (dog.recFood * 0.90) && dog.curFood < (dog.recFood * 1.10);
 
 console.log(`is any dog eating an OKAY amount of recommended food? ${dogs.some(condition)}`);
 
 // 7
 const okayFoodDogs = dogs.filter(condition);
-console.log(okayFoodDogs);
+console.table(okayFoodDogs);
 
 // 8 
-const sortedDogs = dogs.slice().sort((a, b) => a.recommendedFood - b.recommendedFood)
-console.log(sortedDogs);
+const sortedDogs = dogs.slice().sort((a, b) => a.recFood - b.recFood)
+console.table(sortedDogs);
