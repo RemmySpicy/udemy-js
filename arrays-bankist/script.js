@@ -267,11 +267,17 @@ btnLoan.addEventListener('click', (e) => {
   // Round to number incase of decimal value
   const amount = Math.floor(inputLoanAmount.value)
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount/10)) {
-    // Give Loan
-    currentAccount.movements.push(amount);
 
-    // Update UI
-    updateUI(currentAccount);
+    // Process loan with SetTimeout
+    setTimeout( 
+      function () {
+        // Give Loan
+        currentAccount.movements.push(amount);
+
+      // Update UI
+      updateUI(currentAccount);},
+    2500);
+
   } 
   inputLoanAmount.value = '';
 })
