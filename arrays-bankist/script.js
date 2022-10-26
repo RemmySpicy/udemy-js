@@ -549,3 +549,9 @@ console.log('Germany: ', new Intl.NumberFormat('de-DE', optionsNum).format(num))
 console.log('Syria: ', new Intl.NumberFormat('ar-SY', optionsNum).format(num));
 console.log('Browser: ', new Intl.NumberFormat(navigator.language, optionsNum).format(num));
 */
+
+// Clock 
+setInterval(() => { 
+  const now = new Date();
+  console.log(`H ${now.getHours()}: M ${now.getMinutes()}: S ${now.getSeconds()}`)
+}, 1000)
