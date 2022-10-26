@@ -87,25 +87,36 @@ const eurToUsd = 1.1;
 const movementsUSD = movements.map((mov) => mov * eurToUsd);
 console.log(movementsUSD);
 
-function displayMovements(movements, sort = false) {
+function displayMovements(acc, sort = false) {
   containerMovements.innerHTML = "";
 
   // Soft copy with slice without spreading
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach((mov, i) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
+
+    // Format movement display format
+    const formattedMov = formatCur(mov, acc.locale, acc.currency);
 
     const html = `
         <div class="movements__row">
             <div class="movements__type movements__type--${type}"> ${type}</div>
             <div class="movements__date">3 days ago</div>
-            <div class="movements__value">${mov.toFixed(2)} €</div>
+            <div class="movements__value">${formattedMov}</div>
         </div>
         `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 }
+
+// Format currency
+function formatCur(value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+  style: 'currency',
+  currency: currency,
+}).format(value);
+};
 
 // Computing Usernames
 function createUsernames(accs) {
@@ -118,7 +129,6 @@ function createUsernames(accs) {
         .join(""))
   );
 }
-
 createUsernames(accounts);
 
 // Transaction history record
@@ -131,7 +141,7 @@ console.log(movementsDescription);
 // Display Account balance
 function calcDisplayBalance(acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)} €`;
+  labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 }
 
 // Maximum Value
@@ -141,11 +151,11 @@ console.log(movements.reduce((acc, mov) => (mov > acc ? mov : acc), 0));
 function calcDisplaySummary (acc) {
   // display incomes
   const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)} €`;
+  labelSumIn.textContent = formatCur(incomes, acc.locale, acc.currency);
 
   // display outcomes
   const outcomes = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(outcomes).toFixed(2)} €`;
+  labelSumOut.textContent = formatCur(Math.abs(outcomes), acc.locale, acc.currency);
 
   // display interest
   const interest = acc.movements
@@ -153,13 +163,13 @@ function calcDisplaySummary (acc) {
     .map(deposit => deposit * acc.interestRate / 100)
     .filter(interest => interest >= 1)
     .reduce((acc, interest) => acc + interest, 0);
-  labelSumInterest.textContent = `${interest.toFixed(2)} €`;
+  labelSumInterest.textContent = formatCur(interest, acc.locale, acc.currency);
 }
 
 const updateUI = (acc) => {
   console.log(acc);
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -307,7 +317,7 @@ let sorted = false; // state variable
 btnSort.addEventListener('click', (e) => {
   e.preventDefault();
 
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 })
 
@@ -517,7 +527,7 @@ console.table(sortedDogs);
 
 
 ////// Intl API with numbers //////
-
+/*
 const num = 234352.23;
 
 const optionsNum = {
@@ -532,3 +542,4 @@ console.log('US: ', new Intl.NumberFormat('en-US', optionsNum).format(num));
 console.log('Germany: ', new Intl.NumberFormat('de-DE', optionsNum).format(num));
 console.log('Syria: ', new Intl.NumberFormat('ar-SY', optionsNum).format(num));
 console.log('Browser: ', new Intl.NumberFormat(navigator.language, optionsNum).format(num));
+*/
