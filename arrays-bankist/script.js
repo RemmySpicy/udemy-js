@@ -513,3 +513,22 @@ console.table(okayFoodDogs);
 // 8 
 const sortedDogs = dogs.slice().sort((a, b) => a.recFood - b.recFood)
 console.table(sortedDogs);
+
+
+
+////// Intl API with numbers //////
+
+const num = 234352.23;
+
+const optionsNum = {
+  style: 'currency',
+  // unit: 'mile-per-hour',
+  unit: 'celsius',
+  currency: 'EUR',
+  // useGrouping: false
+}
+
+console.log('US: ', new Intl.NumberFormat('en-US', optionsNum).format(num));
+console.log('Germany: ', new Intl.NumberFormat('de-DE', optionsNum).format(num));
+console.log('Syria: ', new Intl.NumberFormat('ar-SY', optionsNum).format(num));
+console.log('Browser: ', new Intl.NumberFormat(navigator.language, optionsNum).format(num));
