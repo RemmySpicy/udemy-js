@@ -179,10 +179,33 @@ const updateUI = (acc) => {
 }
 
 
-// Event handler
-let currentAccount = account1;
-containerApp.style.opacity = 1;
-updateUI(currentAccount)
+function startLogoutTimer() {
+  const tick = () => {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    
+    labelTimer.textContent = `${min}:${sec}`;
+    
+    if (time === 0) {
+      clearInterval(timer)
+      labelWelcome.textContent = "Login to get started";
+      containerApp.style.opacity = 0;
+    }
+
+    time--;
+  }
+
+  // Original countdown time
+  let time = 120;
+  
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+}
+ 
+
+//////// Event handler
+let currentAccount, timer;
 
 // Experimenting with Intl date formatter API (iso language code table)
 // const now = new Date();
@@ -231,6 +254,10 @@ btnLogin.addEventListener('click', (e) => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    // Start logout timer
+    if (timer) clearInterval(timer);
+    timer = startLogoutTimer();
+
     // update UI
     updateUI(currentAccount)
   }
@@ -256,7 +283,10 @@ btnTransfer.addEventListener('click', (e) => {
 
     // update UI
     updateUI(currentAccount)
-    console.log(receiverAcc);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
 })
 
@@ -275,9 +305,13 @@ btnLoan.addEventListener('click', (e) => {
         currentAccount.movements.push(amount);
 
       // Update UI
-      updateUI(currentAccount);},
-    2500);
+      updateUI(currentAccount);
+      }
+    , 2500);
 
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
   } 
   inputLoanAmount.value = '';
 })
@@ -551,7 +585,7 @@ console.log('Browser: ', new Intl.NumberFormat(navigator.language, optionsNum).f
 */
 
 // Clock 
-setInterval(() => { 
-  const now = new Date();
-  console.log(`H ${now.getHours()}: M ${now.getMinutes()}: S ${now.getSeconds()}`)
-}, 1000)
+// setInterval(() => { 
+//   const now = new Date();
+//   console.log(`H ${now.getHours()}: M ${now.getMinutes()}: S ${now.getSeconds()}`)
+// }, 1000)
