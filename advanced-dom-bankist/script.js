@@ -146,6 +146,11 @@ nav.addEventListener('mouseout', (e) => handleHover(e, 1))
 // });
 
 
+// Sticky Navigation 
+window.addEventListener('scroll', (e) => {
+  console.log(window.scrollY);
+})
+
 
 ///////////////////////
 ///////////////////////
