@@ -145,10 +145,14 @@ nav.addEventListener('mouseout', (e) => handleHover(e, 1))
   // handleHover(e, 1)
 // });
 
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords);
 
 // Sticky Navigation 
 window.addEventListener('scroll', (e) => {
-  console.log(window.scrollY);
+  // console.log(window.scrollY);
+  if (window.scrollY > initialCoords) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
 })
 
 
