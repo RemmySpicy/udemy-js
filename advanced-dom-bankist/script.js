@@ -153,6 +153,7 @@ window.addEventListener('scroll', (e) => {
   // console.log(window.scrollY);
   if (window.scrollY > initialCoords) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+  
 })
 
 
