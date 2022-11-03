@@ -169,6 +169,9 @@ const initialCoords = section1.getBoundingClientRect();
 
 const header = document.querySelector('.header');
 
+// To get navbar height and make it display at appropriate time
+const navHeight = nav.getBoundingClientRect().height;
+
 const stickyNav = (entries) => {
   const [entry] = entries;
   
@@ -178,7 +181,8 @@ const stickyNav = (entries) => {
 
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
-  threshold: 0
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
 })
 
 headerObserver.observe(header);
