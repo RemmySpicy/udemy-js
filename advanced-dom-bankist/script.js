@@ -125,22 +125,25 @@ const handleHover = (e, opacity) => {
     const logo = link.closest('.nav').querySelector('img');
 
     siblings.forEach(el => {
+      // if (el !== link) el.style.opacity = this;
       if (el !== link) el.style.opacity = opacity;
     })
+    // logo.style.opacity = this;
     logo.style.opacity = opacity;
   }
 }
 
 // nav.addEventListener('mouseover', handleHover.bind(0.5))
-// nav.addEventListener('mouseover', () => handleHover(e, 0.5))
-nav.addEventListener('mouseover', function (e) {
-  handleHover(e, 0.5)
-});
+nav.addEventListener('mouseover', (e) => handleHover(e, 0.5))
+// nav.addEventListener('mouseover', function (e) {
+  // handleHover(e, 0.5)
+// });
   
 // nav.addEventListener('mouseout', handleHover.bind(1))
-nav.addEventListener('mouseout', function(e) {
-  handleHover(e, 1)
-});
+nav.addEventListener('mouseout', (e) => handleHover(e, 1))
+// nav.addEventListener('mouseout', function(e) {
+  // handleHover(e, 1)
+// });
 
 
 
