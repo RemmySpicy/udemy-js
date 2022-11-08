@@ -267,8 +267,9 @@ const sliders = () => {
     document.querySelectorAll('.dots__dot')
       .forEach(dot => dot.classList.remove('dots__dot--active'));
 
-    // Using optional chaining to avoid error if target isn't well clicked, incase there's no precaution taken
-    document.querySelector(`.dots__dot[data-slide='${slide}']`)?.classList.add('dots__dot--active')
+    // Using optional chaining to avoid error if target isn't well clicked, incase there's no precaution taken in origin function
+    document.querySelector(`.dots__dot[data-slide='${slide}']`)
+      ?.classList.add('dots__dot--active')
   };
 
   const goToSlide = (slide) => {
@@ -408,5 +409,19 @@ btnScrollTo.addEventListener('click', e => {
 
   // Only in modern broswsers
   section1.scrollIntoView({behavior: 'smooth'})
+})
+*/
+
+/*
+document.addEventListener('DOMContentLoaded', (e) => {
+  console.log('HTML parsed and DOM tree built!', e);
+})
+
+window.addEventListener('load', (e) => console.log('Page fully loaded', e));
+
+window.addEventListener('beforeunload', (e) => {
+  e.preventDefault();
+  console.log(e);
+  // e.returnValue = '';
 })
 */
