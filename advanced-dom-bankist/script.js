@@ -216,7 +216,6 @@ const imgTargets = document.querySelectorAll('img[data-src]');
 
 const loadImage = (entries, observer) => {
   const [entry] = entries;
-  console.log(entry);
   
   // Guard clause to return early without default intersection
   if (!entry.isIntersecting) return;
@@ -252,7 +251,7 @@ const dotContainer = document.querySelector('.dots');
 let curSlide = 0;
 const maxSlide = slides.length;
 
-
+// Create dots that show in the slides
 const createDots = () => {
   slides.forEach((_, i) => {
     dotContainer.insertAdjacentHTML("beforeend", `
@@ -262,10 +261,12 @@ const createDots = () => {
 }
 createDots();
 
+// Show which slide we are on
 const activateDot = (slide) => {
-  document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'));
+  document.querySelectorAll('.dots__dot')
+    .forEach(dot => dot.classList.remove('dots__dot--active'));
 
-  document.querySelector(`.dots__dot[data-slide=${slide}]`).classList.add('dots__dot--active')
+  document.querySelector(`.dots__dot[data-slide='${slide}']`).classList.add('dots__dot--active')
 }
 activateDot(0)
 
@@ -273,7 +274,7 @@ const goToSlide = (slide) => {
   slides.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - slide)}%)`;
   });
-  // activateDot(slide)
+  activateDot(slide)
 }
 
 // start slide at 0
@@ -285,6 +286,7 @@ const nextSlide = () => {
   else curSlide++;
 
   goToSlide(curSlide);
+  activateDot(curSlide);
 }
 btnRight.addEventListener('click', nextSlide);
 
@@ -294,13 +296,14 @@ const prevSlide = () => {
   else curSlide--;
 
   goToSlide(curSlide);
+  activateDot(curSlide);
 }
+
 // Prev slide
 btnLeft.addEventListener('click', prevSlide)
 
 // Slide with keyboard
 document.addEventListener('keydown', (e) => {
-  console.log(e);
   // method 1
   if (e.key === 'ArrowRight') nextSlide();
   // short circuting method;
@@ -311,7 +314,8 @@ dotContainer.addEventListener('click', (e) => {
   if (e.target.classList.contains('dots__dot')) console.log('dot');
   // const slide = e.target.dataset.slide;
   const {slide} = e.target.dataset;
-  goToSlide(slide)
+  goToSlide(slide);
+  activateDot(slide);
 })
 
 ///////////////////////
