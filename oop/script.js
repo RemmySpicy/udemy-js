@@ -1,4 +1,6 @@
 'use strict';
+///////////////////////////////////////
+// Coding Challenge #1
 
 /* 
 1. Use a constructor function to implement a Car. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
@@ -33,6 +35,8 @@ const car2 = new Car('Mercedes', 95);
 car2.accelerate();
 car2.break();
 
+///////////////////////////////////////
+// Coding Challenge #2
 
 /* 
 1. Re-create challenge 1, but this time using an ES6 class;
@@ -69,7 +73,44 @@ class Carcl {
 }
 
 const ford = new Carcl('Ford', 120)
+console.log(ford.speedUS)
 console.log(ford.accelerate());
 ford.speedUS = 200;
 console.log(ford.speedUS);
 console.log(ford.speed);
+
+
+///////////////////////////////////////
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+GOOD LUCK 😀
+*/
+
+
+// const EV = function(charge) {
+//     Car.call(this, make, speed);
+
+//     this.charge = `${charge}%`;
+// }
+
+// EV.prototype = Object.create(Car.prototype);
+
+// EV.chargeBattery = function(chargeTo) {
+//     this.charge = `${chargeTo}%`;
+// }
+
+// EV.accelerate = function() {
+//     this.speed =+ 20;
+//     this.charge = `${Number.abs(charge) - 1}`;
+//     console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}`);
+// }
+
+// const tesla = EV(20, 'Tesla', 120)
+
+// console.log(tesla);
