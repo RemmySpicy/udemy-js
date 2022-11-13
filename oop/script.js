@@ -13,10 +13,12 @@ GOOD LUCK 😀
 */
 
 const Car = function(make, speed) {
+    // Instance properties
     this.make = make;
     this.speed = speed;
 }
 
+// Constructor function prototype properties/methods
 Car.prototype.accelerate = function() {
     this.speed += 10;
     console.log(this.speed, 'km/h');
@@ -49,10 +51,12 @@ GOOD LUCK 😀
 
 class Carcl {
     constructor(make, speed) {
+        // Instance properties
         this.make = make;
         this.speed = speed;
     } 
 
+    // Prototype methods 
     accelerate() {
         this.speed += 10;
         console.log(this.speed, 'km/h');
@@ -67,8 +71,8 @@ class Carcl {
         console.log(`${this.make} is going at ${this.speed / 1.6}mi/h`);
     }
 
-    set speedUS(speedmi) {
-        this.speed = speedmi * 1.6;
+    set speedUS(speed) {
+        this.speed = speed * 1.6;
     }
 }
 
@@ -93,24 +97,30 @@ GOOD LUCK 😀
 */
 
 
-// const EV = function(charge) {
-//     Car.call(this, make, speed);
+const EV = function(charge, make, speed) {
+    Car.call(this, make, speed);
 
-//     this.charge = `${charge}%`;
-// }
+    this.charge = charge;
+}
 
-// EV.prototype = Object.create(Car.prototype);
+EV.prototype = Object.create(Car.prototype);
+// Reset EV constructor to itself cos the above function overrides it.
+EV.prototype.constructor = EV;
+// console.dir(EV.prototype.constructor);
 
-// EV.chargeBattery = function(chargeTo) {
-//     this.charge = `${chargeTo}%`;
-// }
+EV.prototype.chargeBattery = function(chargeTo) {
+    this.charge = chargeTo;
+}
 
-// EV.accelerate = function() {
-//     this.speed =+ 20;
-//     this.charge = `${Number.abs(charge) - 1}`;
-//     console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}`);
-// }
+EV.prototype.accelerate = function() {
+    this.speed += 20;
+    this.charge = this.charge - 1;
+    console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}%`);
+}
 
-// const tesla = EV(20, 'Tesla', 120)
+const tesla = new EV(23, 'Tesla', 120);
 
-// console.log(tesla);
+tesla.accelerate();
+tesla.break();
+tesla.chargeBattery(90);
+tesla.accelerate();
