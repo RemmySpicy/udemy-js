@@ -50,6 +50,15 @@ class App {
         form.classList.remove('hidden');
         inputDistance.focus()
     }
+    
+    _hideForm() {
+        // Clear input fields
+        inputDistance.value = inputCadence.value = inputDuration.value = inputElevation.value = '';
+        
+        form.style.display = 'none';
+        form.classList.add('hidden');
+        setTimeout(() => form.style.display = 'grid', 1000)
+    }
 
     _toggleElevationField() {
         inputElevation.closest('.form__row').classList.toggle('form__row--hidden')
@@ -118,10 +127,7 @@ class App {
         this._renderWorkout(workout);
 
         // Hide form + clear input field
-
-    
-        // Clear input fields
-        inputDistance.value = inputCadence.value = inputDuration.value = inputElevation.value = '';
+        this._hideForm();
 
         // Display marker
        
@@ -138,7 +144,7 @@ class App {
                 closeOnClick: false,
                 className: `${workout.type}-popup`
             }))
-            .setPopupContent(`${workout.distance}`)
+            .setPopupContent(`${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`)
             .openPopup();   
     }
 
