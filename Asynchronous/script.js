@@ -52,42 +52,74 @@ const renderCountry = (data, className = '') => {
     countriesContainer.style.opacity = 1;
 }
 
-const getCountryAndNeighbour = (country) => {
+// const getCountryAndNeighbour = (country) => {
 
-    // AJAX call country
-    const request = new XMLHttpRequest();
+//     // AJAX call country
+//     const request = new XMLHttpRequest();
 
-    request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
-    request.send();
+//     request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//     request.send();
 
-    request.addEventListener('load', function() {
-        const [data] = JSON.parse(this.responseText)
-        console.log(data);
+//     request.addEventListener('load', function() {
+//         const [data] = JSON.parse(this.responseText)
+//         console.log(data);
 
-        // Render country (1)
-        renderCountry(data);
+//         // Render country (1)
+//         renderCountry(data);
 
-        // Get neighbour country (2)
-        const [neighbour] = data.borders;
-        console.log(neighbour);
+//         // Get neighbour country (2)
+//         const [neighbour] = data.borders;
+//         console.log(neighbour);
 
-        if (!neighbour) return;
+//         if (!neighbour) return;
 
-        // AJAX call country 2
-        const request2 = new XMLHttpRequest();
+//         // AJAX call country 2
+//         const request2 = new XMLHttpRequest();
 
-        request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
-        request2.send();
+//         request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+//         request2.send();
 
-        request2.addEventListener('load', function() {
+//         request2.addEventListener('load', function() {
             
-            const [data2] = JSON.parse(this.responseText);
-            console.log(data2);
+//             const [data2] = JSON.parse(this.responseText);
+//             console.log(data2);
 
-            renderCountry(data2, 'neighbour');
-        })
-    })
-};
+//             renderCountry(data2, 'neighbour');
+//         })
+//     })
+// };
 
-getCountryAndNeighbour('nigeria');
-getCountryAndNeighbour('us');
+// getCountryAndNeighbour('nigeria');
+// getCountryAndNeighbour('us');
+
+
+//     const request = new XMLHttpRequest();
+//     request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//     request.send();
+
+// const request = fetch('https://restcountries.com/v3.1/name/nigeria')
+// console.log(request);
+
+// const getCountryData = (country) => {
+//     fetch(`https://restcountries.com/v3.1/name/${country}`)
+//         .then(response => {
+//             console.log(response);
+//             return response.json();
+//         })
+//         .then(data => {
+//         console.log(data);
+//         renderCountry(data[0]);
+//         }
+//     )
+// }
+
+const request = fetch('https://restcountries.com/v3.1/name/nigeria')
+console.log(request);
+
+const getCountryData = (country) => {
+    fetch(`https://restcountries.com/v3.1/name/${country}`)
+        .then(response => response.json())
+        .then(data => renderCountry(data[0]));
+}
+
+getCountryData('nigeria')
