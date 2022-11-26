@@ -16,7 +16,13 @@ class App {
     #workouts = [];
 
     constructor(){
+        // Get user's positon
         this._getPosition();
+
+        // Get data from local storage
+        this._getLocalStorage();
+
+        // Attach Event handlers
         form.addEventListener('submit', this._newWorkout.bind(this));
         inputType.addEventListener('change', this._toggleElevationField);
         containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -33,7 +39,7 @@ class App {
         const {latitude} = position.coords;
         const {longitude} = position.coords;
 
-        console.log(`https://www.google.com/maps/@${latitude},${longitude},12z`);
+        // console.log(`https://www.google.com/maps/@${latitude},${longitude},12z`);
 
         const coords = [latitude, longitude]
 
@@ -45,6 +51,9 @@ class App {
 
         // Handling clicks on map
         this.#map.on('click', this._showForm.bind(this));
+
+        // Render workout marker
+        this.#workouts.forEach(work => this._renderWorkoutMarker(work));
     }
 
     _showForm(mapE) {
@@ -121,7 +130,6 @@ class App {
         
         // Add new object to workout array
         this.#workouts.push(workout);
-        console.log(this.#workouts);
 
         // Render workout on map as marker
         this._renderWorkoutMarker(workout);
@@ -132,7 +140,8 @@ class App {
         // Hide form + clear input field
         this._hideForm();
 
-        // Display marker
+        // Set Local Storage to all workouts
+        this._setLocalStorage();
        
     }
 
@@ -204,12 +213,10 @@ class App {
 
     _moveToPopup(e) {
         const workoutEL = e.target.closest('.workout');
-        console.log(workoutEL);
 
         if (!workoutEL) return;
 
         const workout = this.#workouts.find(work => work.id === workoutEL.dataset.id)
-        console.log(workout);
 
         this.#map.setView(workout.coords, this.#mapZoomLevel, {
             animate: true,
@@ -219,7 +226,27 @@ class App {
         })
 
         // Using public interface
-        workout.click();
+        // workout.click();
+    }
+
+    _setLocalStorage() {
+        localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    }
+
+    _getLocalStorage() {
+        const data = JSON.parse(localStorage.getItem('workouts'));
+        console.log(data);
+
+        if (!data) return;
+
+        this.#workouts = data;
+
+        this.#workouts.forEach(work => this._renderWorkout(work));
+    }
+
+    reset() {
+        localStorage.removeItem('workouts');
+        location.reload();
     }
 }
 
