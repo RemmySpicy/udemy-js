@@ -278,42 +278,42 @@ const getCountryInfo = (country) => {
 
 
 // Building up promises
-const lotteryPromise = new Promise(function(resolve, reject) {
-    console.log('lottery draw is happening 🔮');
+// const lotteryPromise = new Promise(function(resolve, reject) {
+//     console.log('lottery draw is happening 🔮');
 
-    setTimeout(() => {
-        if (Math.random() >= 0.5) {
-            resolve('You won the lottery 😀')
-        } else {
-            reject('You lost your money 💩')
-        }
-    }, 2000)
-})
+//     setTimeout(() => {
+//         if (Math.random() >= 0.5) {
+//             resolve('You won the lottery 😀')
+//         } else {
+//             reject('You lost your money 💩')
+//         }
+//     }, 2000)
+// })
 
 // consuming the Promise
 // lotteryPromise.then(res => console.log(res)).catch(err => console.error(err))
 
 // Promisifying setTimeout
-const wait = function(seconds) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, seconds * 1000)
-    })
-}
+// const wait = function(seconds) {
+//     return new Promise(function (resolve) {
+//         setTimeout(resolve, seconds * 1000)
+//     })
+// }
 
-wait(1)
-    .then(() => {
-        console.log('1 second passed')
-        return wait(1)
-    })
-    .then(() => {
-        console.log('2 seconds passed')
-        return wait(1)
-    })
-    .then(() => {
-        console.log('3 seconds passed')
-        return wait(1)
-    })
-    .then(() => console.log('4 seconds passed'))
+// wait(1)
+//     .then(() => {
+//         console.log('1 second passed')
+//         return wait(1)
+//     })
+//     .then(() => {
+//         console.log('2 seconds passed')
+//         return wait(1)
+//     })
+//     .then(() => {
+//         console.log('3 seconds passed')
+//         return wait(1)
+//     })
+//     .then(() => console.log('4 seconds passed'))
 
 // Promise.resolve('abc').then(res => console.log(res))
 // Promise.reject(new Error('Failed!')).catch(err => console.error(err))
@@ -375,31 +375,67 @@ TEST DATA: Images in the img folder. Test the error handler by passing a wrong i
 GOOD LUCK 😀
 */
 
-// function createImage() {}
-//     receives imgPath as an input
-function createImage(path) {
-    
-    //     returns a promise which creates a new image (use document.createElement('img'))
-    return new Promise((resolve, reject) => {
-        const img = document.createElement('img')
-        img.src = `${path}/img-1.jpg`
-        img.addEventListener('load', (e) => {
-            imagesContainer.insertAdjacentElement('beforebegin', img);
-            
-            console.log(e);
-            if (img.src) {
-                resolve(img);
-            } else {
-                reject(new Error('Error loading image'))
-            }
-        })
-        console.log(img.addEventListener('load', e => e));
+
+const wait = function(seconds) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, seconds * 1000)
     })
 }
 
-// When the image is done loading, append it to the DOM element with the 'images' class, and resolve the promise.
-// In case there is an error loading the image ('error' event), reject the promise.
-createImage('img').then(resolve => {
-    // console.log(resolve)
-})
-.catch(err => console.error(err))
+let image;
+function createImage(path) {
+    return new Promise((resolve, reject) => {
+        const img = document.createElement('img');
+        img.src = path;
+
+        img.addEventListener('load', () => {
+            image = img;
+            imagesContainer.insertAdjacentElement('beforebegin', image);
+            resolve(img);
+        })
+
+        img.addEventListener('error', () => {
+            reject(new Error('Error loading image'));
+        })
+    })
+}
+
+
+// createImage('img/img-1.jpg')
+//     .then(resolve => {
+//         console.log(resolve);
+//         return wait(2);
+//     })
+//     .then(() => {
+//         image.style.display = 'none';
+//         return wait(2);
+//     })
+//     .then(() => {
+//         image.style.display = 'none';
+//         createImage('img/img-2.jpg');
+//         return wait(2);
+//     })
+//     .then(() => {
+//         image.style.display = 'none';
+//         createImage('img/img-3.jpg')
+//     })
+//     .catch(err => console.error(err))
+
+
+createImage('img/img-1.jpg')
+    .then(resolve => {
+        console.log(resolve);
+        return wait(2);
+    })
+    .then(() => {
+        image.style.display = 'none';
+        return createImage('img/img-2.jpg');
+    })
+    .then(() => {
+        return wait(2);
+    })
+    .then(() => {
+        image.style.display = 'none';
+        createImage('img/img-3.jpg')
+    })
+    .catch(err => console.error(err))
