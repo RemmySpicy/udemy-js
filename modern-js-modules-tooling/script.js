@@ -19,3 +19,29 @@ add('bread', 5)
 add('apple', 4)
 
 console.log(cart);
+
+// console.log('Fetching starting');
+// const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+// const data = await res.json();
+// console.log(data);
+// console.log('SOmething');
+
+const getLastPost = async function() {
+    try {
+        const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const data = await res.json();
+        
+        return {title: data.at(-1).title, text: data.at(-1).body}
+    } catch (error) {
+        
+    }
+}
+
+const lastPost = getLastPost()
+
+// Non blocking but not very clean
+// lastPost.then(res => console.log(res))
+// console.log(lastPost);
+
+const lastPost2 = await getLastPost()
+console.log(lastPost2);
