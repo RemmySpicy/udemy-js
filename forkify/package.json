@@ -1,0 +1,23 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe App",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RemmySpicy/udemy-js.git"
+  },
+  "author": "Remilekun Olayinka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RemmySpicy/udemy-js/issues"
+  },
+  "homepage": "https://github.com/RemmySpicy/udemy-js#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "parcel": "^2.8.3"
+  }
+}
