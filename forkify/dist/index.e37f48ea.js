@@ -2641,7 +2641,6 @@ const state = {
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJson)(`${(0, _config.API_URL)}${id}`);
-        console.log(data);
         const { recipe  } = data.data;
         state.recipe = {
             id: recipe.id,
@@ -2653,7 +2652,6 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(state.recipe);
     } catch (error) {
         console.error(`${error} 🔥🔥🔥🔥`);
         throw error;
@@ -2662,7 +2660,6 @@ const loadRecipe = async function(id) {
 const loadSearchResult = async function(query) {
     try {
         const data = await (0, _helpers.getJson)(`${(0, _config.API_URL)}?search=${query}`);
-        console.log(data);
         state.search.query = query;
         state.search.results = data.data.recipes.map((rec)=>{
             return {
@@ -2678,7 +2675,6 @@ const loadSearchResult = async function(query) {
 };
 const getSearchResultsPage = function(page = state.search.page) {
     state.search.page = page;
-    console.log(page);
     const start = (page - 1) * state.search.resultsPerPage; // 0
     const end = page * 10; // 9
     return state.search.results.slice(start, end);
@@ -3138,7 +3134,6 @@ class PaginationView extends (0, _viewDefault.default) {
     addHandlerClick(handler) {
         this._parentElement.addEventListener("click", (e)=>{
             const btn = e.target.closest(".btn--inline");
-            console.log(btn);
             if (!btn) return;
             const goToPage = +btn.dataset.goto;
             handler(goToPage);
@@ -3147,7 +3142,6 @@ class PaginationView extends (0, _viewDefault.default) {
     _generateMarkup() {
         const curPage = this._data.page;
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
-        console.log(numPages);
         // Page 1, there are other pages
         if (curPage === 1 && numPages > 1) return `
                 <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">

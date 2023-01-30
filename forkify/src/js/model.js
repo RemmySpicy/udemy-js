@@ -15,7 +15,6 @@ export const state = {
 export const loadRecipe = async function(id) {
     try {   
         const data = await getJson(`${API_URL}${id}`);
-        console.log(data);
 	
 	    const {recipe} = data.data;
 	    state.recipe = {
@@ -28,7 +27,7 @@ export const loadRecipe = async function(id) {
 	        cookingTime: recipe.cooking_time,
 	        ingredients: recipe.ingredients
 	    };
-	    console.log(state.recipe);
+
     } catch (error) {
         console.error(`${error} 🔥🔥🔥🔥`);
         throw error;
@@ -38,7 +37,6 @@ export const loadRecipe = async function(id) {
 export const loadSearchResult = async function(query) {
     try {
         const data = await getJson(`${API_URL}?search=${query}`)
-        console.log(data);
 
         state.search.query = query;
 
@@ -58,7 +56,7 @@ export const loadSearchResult = async function(query) {
 
 export const getSearchResultsPage = function(page = state.search.page) {
     state.search.page = page;    
-    console.log(page);
+
     const start = (page - 1) * state.search.resultsPerPage ; // 0
     const end = page * 10; // 9
 
