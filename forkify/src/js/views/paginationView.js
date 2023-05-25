@@ -30,7 +30,7 @@ class PaginationView extends View {
                         <use href="${icons}#icon-arrow-right"></use>
                     </svg>
                 </button
-            `
+            `;
         }
         
         // Last page
@@ -42,7 +42,7 @@ class PaginationView extends View {
                     </svg>
                     <span>Page ${curPage - 1}</span>
                 </button>
-            `
+            `;
         }
         
         // Other pages 
@@ -60,12 +60,11 @@ class PaginationView extends View {
                     <use href="${icons}#icon-arrow-right"></use>
                 </svg>
             </button
-            `
+            `;
         }
         
         // Page 1, there are no other pages
-        return `
-        `
+        return ``;
     }
 }
 
