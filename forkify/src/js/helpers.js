@@ -1,3 +1,4 @@
+import { async } from "regenerator-runtime";
 import { TIMEOUT_SEC } from "./config";
 
 const timeout = function (s) {
@@ -8,45 +9,61 @@ const timeout = function (s) {
     });
 };
 
-
-export const getJson = async function(url) {
+export const AJAX = async function(url, uploadData = undefined) {
     try {
-	// const res = await fetch(`${API_URL}/${id}`);
-	    const res = await Promise.race([
-            fetch(url),
-            timeout(TIMEOUT_SEC)
-        ])
-
-        const data = await res.json();
-	    
-	    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-        return data;
-    } catch (error) {
-        throw error;
-    }
-}
-
-export const sendJson = async function(url, uploadData) {
-    try {
-
-        const fetchPro = fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(uploadData),
-        })
-
-	    const res = await Promise.race([
+        const fetchPro = uploadData ?
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(uploadData),
+            }) :
+            fetch(url); 
+    
+        const res = await Promise.race([
             fetchPro,
             timeout(TIMEOUT_SEC)
         ])
 
         const data = await res.json();
-	    
-	    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+        
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
         return data;
     } catch (error) {
         throw error;
     }
 }
+
+// export const getJson = async function(url) {
+//     try {
+// 	// const res = await fetch(`${API_URL}/${id}`);
+// 	    const res = await Promise.race([
+//             fetch(url),
+//             timeout(TIMEOUT_SEC)
+//         ])
+
+//         const data = await res.json();
+	    
+// 	    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+//         return data;
+//     } catch (error) {
+//         throw error;
+//     }
+// }
+
+// export const sendJson = async function(url, uploadData) {
+//     try {
+// 	    const res = await Promise.race([
+//             fetchPro,
+//             timeout(TIMEOUT_SEC)
+//         ])
+
+//         const data = await res.json();
+	    
+// 	    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+//         return data;
+//     } catch (error) {
+//         throw error;
+//     }
+// }
